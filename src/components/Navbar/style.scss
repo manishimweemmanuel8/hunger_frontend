@@ -1,0 +1,16 @@
+.menu-top ul {
+  display: inline-flex;
+  li {
+    margin: 15px 20px;
+    a {
+      color: #747474;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    a:hover {
+      color: #d2435e !important;
+      cursor: pointer;
+      font-weight: 700;
+    }
+  }
+}

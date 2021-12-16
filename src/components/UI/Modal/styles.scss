@@ -1,0 +1,16 @@
+@import "../../../assets/scss/color.style.scss";
+
+.orange-color {
+  color: $primaryColor !important;
+}
+.dialog-content {
+  margin: auto !important;
+}
+.dialog-content-text {
+  font-size: 2rem;
+  display: inline-block !important;
+}
+.icon {
+  float: left;
+  margin-right: 0.5rem;
+}
