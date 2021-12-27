@@ -1,0 +1,40 @@
+@import "../../../../assets//scss/color.style.scss";
+
+.menu-container {
+  overflow: hidden;
+  width: 90%;
+
+  .menu-header {
+    display: flex;
+    width: 100%;
+    font-size: 11px;
+    text-align: left;
+    margin-left: 25px;
+
+    &-buttons {
+      margin: 20px -10px;
+    }
+
+    &-inputs {
+      width: 100%;
+      align-items: center;
+      text-align: center;
+    }
+  }
+
+  .menu-content {
+    width: 100%;
+    align-items: center;
+
+  }
+
+  .menu-header-buttons {
+    display: flex;
+  }
+
+  .items-total {
+    color: $primaryColor;
+  }
+}
+
+

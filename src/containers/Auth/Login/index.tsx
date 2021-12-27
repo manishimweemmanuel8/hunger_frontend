@@ -80,12 +80,12 @@ const Login = (props: Props) => {
         state={modalState}
         message={message}
         error={errors && errors.message}
-        title={"Login"}
+        title={"Login"} 
       />
       <CssBaseline />
       <form onSubmit={onSubmit}>
         <Grid className="auth-card">
-          <Grid item md={4} sm={8} xs={3}>
+          <Grid item md={4} sm={8} xs={3} style={{ margin: "auto", minWidth: 800 }}>
             <Paper className="paper">
             <div>
                 <div>

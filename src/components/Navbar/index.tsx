@@ -5,8 +5,7 @@ import clsx from "clsx";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import { Link } from "react-router-dom";
-import { Box, Avatar, IconButton, Badge } from "@material-ui/core";
-import { Notifications } from "@material-ui/icons";
+import { Box, Avatar } from "@material-ui/core";
 import profile from "../../assets/images/profile.png";
 import Hidden from "@material-ui/core/Hidden";
 import UserProfile from "../UI/Modal/Profile";
@@ -69,13 +68,13 @@ const Navbar = (props: IProps) => {
               </Box>
 
               <Hidden smDown>
-                <Box p={1}>
+                {/* <Box p={1}>
                   <IconButton color="inherit">
                     <Badge badgeContent={4} color="secondary">
                       <Notifications />
                     </Badge>
                   </IconButton>
-                </Box>
+                </Box> */}
                 <Box p={1}>
                   <Avatar onClick={handleClick} alt="Quick" src={profile} />
                 </Box>

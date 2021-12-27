@@ -36,7 +36,7 @@ const ManagerDashboard = (props: Props) => {
               <PeopleAlt style={{ color: "rgba(255, 166, 1)", opacity: 1 }} />
             </div>
             <div className="text">
-              <h1>2000</h1>
+              <h1>500</h1>
               <p>Users</p>
             </div>
           </div>
@@ -51,6 +51,8 @@ const ManagerDashboard = (props: Props) => {
               <p>Request</p>
             </div>
           </div>
+
+          
 
           <div className="col dashboard-card">
             <div className="icon-client">
