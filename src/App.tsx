@@ -1,7 +1,6 @@
 import React from "react";
 import Routes from "./routes";
 import axios from "axios";
-import "../src/assets/scss/index.css";
 import { Provider } from "react-redux";
 import { configureStore } from "./store/configureStore";
 
