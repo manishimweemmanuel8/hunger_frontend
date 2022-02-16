@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import AddAboutComponent from "../../../../components/admin/masterDate/admin/AddAbout";
-import ListAboutComponent from "../../../../components/admin/masterDate/admin/ListAbout";
+import AddAboutComponent from "../../../../components/admin/masterDate/about/AddAbout";
+import ListAboutComponent from "../../../../components/admin/masterDate/about/ListAbout";
 import AdminDashboardLayout from "../../../../components/layout/Admin";
 import ModalBox from "../../../../components/ui/Modal/MessageAlert";
 import { AppState } from "../../../../store/configureStore";

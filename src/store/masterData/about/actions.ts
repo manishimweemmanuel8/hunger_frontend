@@ -63,21 +63,22 @@ export const getAbouts = (): AppThunk => async (dispatch) => {
 };
 
 export const getAbout =
-  (aboutId: string): AppThunk =>
+  (aboutId: string,history:any): AppThunk =>
   async (dispatch) => {
     dispatchHandler({ type: ERRORS, data: null, dispatch });
     try {
       const URL = `/about/${aboutId}`;
 
       const { data } = await axios.get(URL);
-      console.log(data);
 
       if (data) {
         dispatchHandler({
           type: GET_ABOUT,
-          data,
+          data:data,
           dispatch,
         });
+        history.push(`/admin/about/${aboutId}`);
+
       }
     } catch (error: any) {
       if (error) {
@@ -97,10 +98,6 @@ export const updateAbout =
     dispatchHandler({ type: ERRORS, data: null, dispatch });
     try {
       const URL = `/about/${aboutId}`;
-
-      // const file = information.name;
-      // const formData = new FormData();
-      // formData.append("file", information);
 
       const { data } = await axios.patch(URL, formData);
       history.push("/admin/about");

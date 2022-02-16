@@ -1,9 +1,12 @@
 export const ERRORS = "ERRORS";
 export const GET_ALL_CAMPAIGNS = "GET_ALL_CAMPAIGNS";
+export const GET_ALL_CAMPAIGNS_DISTRICT = "GET_ALL_CAMPAIGNS_DISTRICT";
 export const CREATE_CAMPAIGN = "CREATE_CAMPAIGN";
 export const UPDATE_CAMPAIGN = "UPDATA_CAMPAIGN";
 export const GET_CAMPAIGN = "GET_CAMPAIGN";
 export const GET_CAMPAIGN_LATEST = "GET_CAMPAIGN_LATEST";
+export const UPLOAD_IMAGE = "UPLOAD_IMAGE";
+
 
 export interface IErrors {
   status: number;
@@ -22,19 +25,20 @@ export interface ICampaign {
   quality?: string;
   createdDate?: any;
   image?: string;
+  file?:string;
 }
 
 interface ICreateCampaign {
   type: typeof CREATE_CAMPAIGN;
   payload: {
-    campaignMessage: string;
+    message: string;
   };
 }
 
 interface IUpdateCampaing {
   type: typeof UPDATE_CAMPAIGN;
   payload: {
-    campaignMessage: string;
+    message: string;
   };
 }
 
@@ -42,6 +46,13 @@ interface ICampaignList {
   type: typeof GET_ALL_CAMPAIGNS;
   payload: {
     campaigns: ICampaign[];
+  };
+}
+
+interface ICampaignDistrcitList {
+  type: typeof GET_ALL_CAMPAIGNS_DISTRICT;
+  payload: {
+    campaignsDistrict: ICampaign[];
   };
 }
 
@@ -66,10 +77,19 @@ interface IWriteErrors {
   };
 }
 
+interface IUploadImage {
+  type: typeof UPLOAD_IMAGE;
+  payload: {
+    message: string;
+  };
+}
+
 export type CampaignType =
   | IWriteErrors
   | ICampaignList
   | ICreateCampaign
   | IGetCampaign
   | IGetCampaignLatest
-  | IUpdateCampaing;
+  | ICampaignDistrcitList
+  | IUpdateCampaing
+  | IUploadImage

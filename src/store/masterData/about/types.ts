@@ -17,6 +17,7 @@ export interface IAbout {
   id?: string;
   name: string;
   description: string;
+  
 }
 
 interface IICreateAbout {

@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import AddAboutComponent from "../../../../components/admin/masterDate/admin/AddAbout";
+import AddAboutComponent from "../../../../components/admin/masterDate/about/AddAbout";
 import AdminDashboardLayout from "../../../../components/layout/Admin";
 import ModalBox from "../../../../components/ui/Modal/MessageAlert";
 import { AppState } from "../../../../store/configureStore";
@@ -41,10 +41,11 @@ export default function AddAbout(props: Props) {
   const [modalState, setModalState] = React.useState({
     open: false,
   });
-  const { name, description } = state;
+  const { name, description,spinner } = state;
   const data = {
     name,
     description,
+    spinner,
   };
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;

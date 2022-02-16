@@ -22,21 +22,21 @@ export interface IService {
 interface IICreateService {
   type: typeof CREATE_SERVICE;
   payload: {
-    serviceMessage: string;
+    message: string;
   };
 }
 
 interface IUpdateService {
   type: typeof UPDATE_SERVICE;
   payload: {
-    serviceMessage: string;
+    aboutMessage: string;
   };
 }
 
 interface IServiceList {
   type: typeof GET_ALL_SERVICES;
   payload: {
-    services: IService[];
+    services: IService;
   };
 }
 
@@ -54,7 +54,7 @@ interface IWriteErrors {
   };
 }
 
-export type serviceType =
+export type ServiceType =
   | IWriteErrors
   | IServiceList
   | IICreateService

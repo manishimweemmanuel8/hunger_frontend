@@ -5,44 +5,30 @@ import {
   CREATE_CAMPAIGN,
   ERRORS,
   GET_ALL_CAMPAIGNS,
+  GET_ALL_CAMPAIGNS_DISTRICT,
   GET_CAMPAIGN,
   GET_CAMPAIGN_LATEST,
   ICampaign,
   UPDATE_CAMPAIGN,
+  UPLOAD_IMAGE,
 } from "./types";
 
 export const createCampaign =
-  (information: ICampaign): AppThunk =>
+  (formData: ICampaign, history: any): AppThunk =>
   async (dispatch) => {
     dispatchHandler({ type: ERRORS, data: null, dispatch });
+
     try {
       const URL = "/campaign";
 
-      const header = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      };
+      const { data } = await axios.post(URL, formData);
 
-      const info = {
-        name: information.name,
-        description: information.description,
-        quantity: information.quantity,
-        quality: information.quality,
-      };
-
-      const { data } = await axios.post(URL, info, header);
-
-      if (data) {
-        dispatchHandler({
-          type: CREATE_CAMPAIGN,
-          data: "Campaign was created successful",
-          dispatch,
-        });
-      }
+      // if (data) {
+      history.push("/district/campaign");
+      // }
     } catch (error: any) {
       if (error) {
-        const data = error.response;
+        const data = error.response.data;
         return dispatchHandler({
           type: ERRORS,
           data,
@@ -61,7 +47,33 @@ export const getCampaigns = (): AppThunk => async (dispatch) => {
     if (data) {
       dispatchHandler({
         type: GET_ALL_CAMPAIGNS,
-        data: data,
+        data,
+        dispatch,
+      });
+    }
+  } catch (error: any) {
+    if (error) {
+      const data = error.response;
+      return dispatchHandler({
+        type: ERRORS,
+        data,
+        dispatch,
+      });
+    }
+  }
+};
+
+export const getCampaignsDistrcit = (): AppThunk => async (dispatch) => {
+  dispatchHandler({ type: ERRORS, data: null, dispatch });
+  try {
+    const URL = "/campaign/district";
+
+    const { data } = await axios.get(URL);
+    console.log(data);
+    if (data) {
+      dispatchHandler({
+        type: GET_ALL_CAMPAIGNS_DISTRICT,
+        data,
         dispatch,
       });
     }
@@ -78,21 +90,23 @@ export const getCampaigns = (): AppThunk => async (dispatch) => {
 };
 
 export const getCampaign =
-  (campaignId: any): AppThunk =>
+  (campaignId: any, history: any): AppThunk =>
   async (dispatch) => {
     dispatchHandler({ type: ERRORS, data: null, dispatch });
     try {
       const URL = `/campaign/${campaignId}`;
 
       const { data } = await axios.get(URL);
-      console.log(data);
 
       if (data) {
+        console.log(data)
+
         dispatchHandler({
           type: GET_CAMPAIGN,
-          data: data,
+          data,
           dispatch,
         });
+        history.push(`/district/campaign/${campaignId}`);
       }
     } catch (error: any) {
       if (error) {
@@ -116,7 +130,7 @@ export const getCampaignLatest = (): AppThunk => async (dispatch) => {
     if (data) {
       dispatchHandler({
         type: GET_CAMPAIGN_LATEST,
-        data: data,
+        data,
         dispatch,
       });
     }
@@ -134,29 +148,42 @@ export const getCampaignLatest = (): AppThunk => async (dispatch) => {
 };
 
 export const updateCampaign =
-  (campaignId: any, information: any): AppThunk =>
+  (campaignId: any, formData: ICampaign, history: any): AppThunk =>
   async (dispatch) => {
     dispatchHandler({ type: ERRORS, data: null, dispatch });
     try {
       const URL = `/campaign/${campaignId}`;
 
-      // const file = information.name;
-      // const formData = new FormData();
-      // formData.append("file", information);
-
-      console.log(information);
-
-      const { data } = await axios.patch(URL, information);
-      if (data) {
-        dispatchHandler({
-          type: UPDATE_CAMPAIGN,
-          data: "Campaign was updated successful",
+      const { data } = await axios.patch(URL, formData);
+      history.push("/district/campaign");
+    } catch (error: any) {
+      if (error) {
+        const data = error.response.data;
+        return dispatchHandler({
+          type: ERRORS,
+          data,
           dispatch,
         });
       }
+    }
+  };
+
+export const uploadImage =
+  (campaignId: any, information: any, history: any): AppThunk =>
+  async (dispatch) => {
+    dispatchHandler({ type: ERRORS, data: null, dispatch });
+    try {
+      const URL = `/campaign/upload/${campaignId}`;
+
+      const file = information.name;
+      const formData = new FormData();
+      formData.append("file", information);
+
+      const { data } = await axios.post(URL, formData);
+      history.push("/district/campaign");
     } catch (error: any) {
       if (error) {
-        const data = error.response;
+        const data = error.response.data;
         return dispatchHandler({
           type: ERRORS,
           data,

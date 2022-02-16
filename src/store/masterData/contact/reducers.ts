@@ -8,7 +8,8 @@ import {
 } from "./types";
 
 const initialState = {
-  configMenuErrors: null,
+  message: null,
+  contact: false,
   contacts: [],
 };
 
@@ -18,15 +19,16 @@ export const contactReducer = (
 ) => {
   switch (type) {
     case ERRORS:
-      return { ...state, configMenuErrors: payload, contactMessage: null };
+      return { ...state, errors: payload };
     case GET_ALL_CONTACTS:
       return { ...state, contacts: payload };
     case GET_CONTACT:
       return { ...state, contact: payload };
     case CREATE_CONTACT:
-      return { ...state, contactMessage: payload };
+      return { ...state, message: payload };
     case UPDATE_CONTACT:
-      return { ...state, contactMessage: payload };
+      return { ...state, message: payload };
+
     default:
       return state;
   }

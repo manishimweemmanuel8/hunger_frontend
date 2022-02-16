@@ -22,21 +22,21 @@ export interface IContact {
 interface IICreateContact {
   type: typeof CREATE_CONTACT;
   payload: {
-    contactMessage: string;
+    message: string;
   };
 }
 
 interface IUpdateContact {
   type: typeof UPDATE_CONTACT;
   payload: {
-    contactMessage: string;
+    message: string;
   };
 }
 
 interface IContactList {
   type: typeof GET_ALL_CONTACTS;
   payload: {
-    contacts: IContact[];
+    contacts: IContact;
   };
 }
 

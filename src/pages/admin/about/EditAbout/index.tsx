@@ -1,8 +1,8 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import AddAboutComponent from "../../../../components/admin/masterDate/admin/AddAbout";
-import EditAboutComponent from "../../../../components/admin/masterDate/admin/EditAbout";
+import AddAboutComponent from "../../../../components/admin/masterDate/about/AddAbout";
+import EditAboutComponent from "../../../../components/admin/masterDate/about/EditAbout";
 import AdminDashboardLayout from "../../../../components/layout/Admin";
 import ModalBox from "../../../../components/ui/Modal/MessageAlert";
 import { AppState } from "../../../../store/configureStore";
@@ -25,12 +25,18 @@ export default function EditAbout(props: Props) {
   const dispatch = useDispatch();
   const params = useParams<RouteParams>();
 
+ 
   const aboutReducer = useSelector((state: AppState) => state.about);
-  const { about }: { about: IAbout } =aboutReducer;
-  React.useEffect(() => {
-    dispatch(getAbout(params.id));
-  }, []);
+  const { about }: { about: IAbout } = aboutReducer;
 
+  console.log(about);
+  
+
+  const [state, setState] = React.useState({
+    name: about.name,
+    description: about.description,
+    spinner: false,
+  });
   const {
     errors,
     message,
@@ -46,13 +52,7 @@ export default function EditAbout(props: Props) {
     // eslint-disable-next-line
   }, [aboutReducer]);
 
-//   console.log(about);
 
-  const [state, setState] = React.useState({
-    name: "",
-    description: "",
-    spinner: false,
-  });
   const [modalState, setModalState] = React.useState({
     open: false,
   });
@@ -65,11 +65,11 @@ export default function EditAbout(props: Props) {
     const { name, value } = event.target;
     setState({ ...state, [name]: value });
   };
-  
+
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     setState({ ...state, spinner: true });
-    dispatch(updateAbout(params.id,data, props.history));
+    dispatch(updateAbout(params.id, data, props.history));
   };
   const handleClose = (event: React.MouseEvent<HTMLElement>) => {
     setModalState({ ...modalState, open: false });

@@ -1,38 +1,30 @@
 import * as React from "react";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { ILoginParams } from "../../../../../store/auth/types";
-import { VisibilityOffOutlined, VisibilityOutlined } from "@mui/icons-material";
-import { IAbout } from "../../../../../store/masterData/about/types";
+import { createTheme } from "@mui/material/styles";
 import { Grid, Paper, Stack } from "@mui/material";
-import Title from "../../../../../pages/admin/Dashboard/title";
+import { IDistrict } from "../../../../store/district/types";
+import Title from "../../../../pages/admin/Dashboard/title";
+import { VisibilityOffOutlined, VisibilityOutlined } from "@mui/icons-material";
+import { ICampaign } from "../../../../store/campaign/types";
 
 const theme = createTheme();
 
 type Props = {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  state: IAbout;
+  state: ICampaign;
   onSubmit: (e: React.FormEvent) => void;
-  about: IAbout;
-  setState: any;
 };
 
-export default function EditAboutComponent(props: Props) {
-  const { onChange, state, onSubmit, setState, about } = props;
-  setState(about);
+export default function EditCampaignComponent(props: Props) {
+  const { onChange, state, onSubmit } = props;
 
-  const { name, description } = state;
+  const { name, description, quality, quantity } = state;
   return (
     <Grid item xs={12}>
       <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-        <Title>Add new About us</Title>
+        <Title>EDIT EXIST CAMPAIGN</Title>
 
         <Box
           component="form"
@@ -57,6 +49,31 @@ export default function EditAboutComponent(props: Props) {
             margin="normal"
             required
             fullWidth
+            id="quality"
+            label="Quality"
+            name="quality"
+            value={quality}
+            autoComplete="quality"
+            autoFocus
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange(e)}
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="quantity"
+            label="Quantity"
+            name="quantity"
+            value={quantity}
+            autoComplete="quantity"
+            type="number"
+            autoFocus
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange(e)}
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
             name="description"
             value={description}
             label="Description"
@@ -66,7 +83,7 @@ export default function EditAboutComponent(props: Props) {
             multiline
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange(e)}
           />
-       
+
           <Stack
             spacing={2}
             direction="row"
@@ -76,7 +93,7 @@ export default function EditAboutComponent(props: Props) {
             <Button type="submit" variant="contained">
               Submit
             </Button>
-            <Button variant="contained" color="error"  href="/admin/about">
+            <Button variant="contained" color="error" href="/district/campaign">
               Cancel
             </Button>
           </Stack>
