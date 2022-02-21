@@ -148,7 +148,7 @@ export default function ListCampaignDonationComponent(props: DonationProps) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const rows = donations.sort((a, b) => (a.names < b.names ? -1 : 1));
-  const rowsTop = donations.sort((a, b) => (a.amount < b.amount ? -1 : 1));
+  const rowsTop = donations.sort((a, b) => (a.amount > b.amount ? -1 : 1));
   var number = 0;
   var printNumber = 0;
   var today = new Date(),
