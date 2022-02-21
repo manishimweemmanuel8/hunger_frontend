@@ -3,11 +3,12 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import { createTheme } from "@mui/material/styles";
-import { Grid, Paper, Stack } from "@mui/material";
+import { Checkbox, FormControlLabel, Grid, Paper, Stack } from "@mui/material";
 import { IDistrict } from "../../../../store/district/types";
 import Title from "../../../../pages/admin/Dashboard/title";
 import { VisibilityOffOutlined, VisibilityOutlined } from "@mui/icons-material";
 import { ICampaign } from "../../../../store/campaign/types";
+import { pink } from "@mui/material/colors";
 
 const theme = createTheme();
 
@@ -15,10 +16,11 @@ type Props = {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   state: ICampaign;
   onSubmit: (e: React.FormEvent) => void;
+  checked: any;
 };
 
 export default function EditCampaignComponent(props: Props) {
-  const { onChange, state, onSubmit } = props;
+  const { onChange, state, onSubmit, checked } = props;
 
   const { name, description, quality, quantity } = state;
   return (
@@ -82,6 +84,24 @@ export default function EditCampaignComponent(props: Props) {
             rows={4}
             multiline
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange(e)}
+          />
+
+          <FormControlLabel
+            control={
+              <Checkbox
+                sx={{
+                  color: pink[800],
+                  "&.Mui-checked": {
+                    color: pink[600],
+                  },
+                }}
+                checked={checked}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  onChange(e)
+                }
+              />
+            }
+            label="ACTIVE"
           />
 
           <Stack

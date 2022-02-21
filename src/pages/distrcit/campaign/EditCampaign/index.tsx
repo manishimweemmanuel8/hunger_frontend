@@ -49,28 +49,32 @@ export default function EditCampaign(props: Props) {
     }
     // eslint-disable-next-line
   }, [campaignReducer]);
-  console.log(campaign);
+
+  const [checked, setChecked] = React.useState(campaign.status);
 
   const [state, setState] = React.useState({
     name: campaign.name,
     description: campaign.description,
     quality: campaign.quality,
     quantity: campaign.quantity,
+    status: campaign.status,
     spinner: false,
   });
   const [modalState, setModalState] = React.useState({
     open: false,
   });
-  const { name, description, quality, quantity } = state;
+  const { name, description, quality, quantity, status } = state;
   const data = {
     name,
     description,
     quality,
     quantity,
+    status: checked,
   };
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setState({ ...state, [name]: value });
+    setChecked(event.target.checked);
   };
 
   const onSubmit = (event: React.FormEvent) => {
@@ -94,6 +98,7 @@ export default function EditCampaign(props: Props) {
         onChange={onChange}
         state={state}
         onSubmit={onSubmit}
+        checked={checked}
       />
     </DistrictDashboardLayout>
   );

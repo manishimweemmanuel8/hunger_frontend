@@ -172,7 +172,7 @@ export default function ListCampaignComponent(props: CampaignProps) {
   return (
     <Grid item xs={12}>
       <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-        <Title>DISTRICT LIST</Title>
+        <Title>CAMPAIGN LIST</Title>
 
         <Root sx={{ width: 1200, maxWidth: "100%" }}>
           <Button
@@ -195,6 +195,7 @@ export default function ListCampaignComponent(props: CampaignProps) {
                   <th>QUALITY</th>
                   <th>QUANTITY</th>
                   <th>DESCRIPTION</th>
+                  <th>STATUS</th>
                   <th>ACTION</th>
                 </tr>
               </thead>
@@ -237,6 +238,9 @@ export default function ListCampaignComponent(props: CampaignProps) {
                     </td>
                     <td style={{ width: 720 }} align="right">
                       {row.description}
+                    </td>
+                    <td style={{ width: 120 }} align="right">
+                      {row.status ? `True` : `False`}
                     </td>
 
                     <td style={{ width: 520 }}>

@@ -7,7 +7,6 @@ export const GET_CAMPAIGN = "GET_CAMPAIGN";
 export const GET_CAMPAIGN_LATEST = "GET_CAMPAIGN_LATEST";
 export const UPLOAD_IMAGE = "UPLOAD_IMAGE";
 
-
 export interface IErrors {
   status: number;
   statusText: string;
@@ -25,7 +24,8 @@ export interface ICampaign {
   quality?: string;
   createdDate?: any;
   image?: string;
-  file?:string;
+  file?: string;
+  status?: boolean;
 }
 
 interface ICreateCampaign {
@@ -92,4 +92,4 @@ export type CampaignType =
   | IGetCampaignLatest
   | ICampaignDistrcitList
   | IUpdateCampaing
-  | IUploadImage
+  | IUploadImage;

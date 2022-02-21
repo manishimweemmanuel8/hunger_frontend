@@ -24,7 +24,7 @@ export interface IDonation {
   location?: string;
   campaignId?: any;
   description?: string;
-  amount?: number;
+  amount: number;
   received?: boolean;
   quantity?: number;
   campaign?:ICampaign;

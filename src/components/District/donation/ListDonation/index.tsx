@@ -1,15 +1,22 @@
 import * as React from "react";
-import { styled } from "@mui/system";
+import { color, styled } from "@mui/system";
 import TablePaginationUnstyled from "@mui/base/TablePaginationUnstyled";
 import {
+  Avatar,
   Button,
   CardMedia,
   Chip,
   Divider,
   Grid,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
   Paper,
   Stack,
+  Typography,
 } from "@mui/material";
+
 import { useHistory } from "react-router-dom";
 import { IDistrict } from "../../../../store/district/types";
 import Title from "../../../../pages/admin/Dashboard/title";
@@ -18,6 +25,8 @@ import defaultImage from "../../../../assets/images/logo192.png";
 import { IDonation } from "../../../../store/donation/types";
 import { useDispatch } from "react-redux";
 import { getDonate } from "../../../../store/donation/actions";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 function createData(name: string, calories: number, fat: number) {
   return { name, calories, fat };
@@ -128,15 +137,27 @@ const CustomTablePagination = styled(TablePaginationUnstyled)(
 
 interface DonationProps {
   donations: IDonation[];
+  normal?: any;
 }
 
+interface pdf {}
+
 export default function ListCampaignDonationComponent(props: DonationProps) {
-  const { donations } = props;
-  console.log(donations)
+  const { donations, normal } = props;
+  console.log(donations);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const rows = donations.sort((a, b) => (a.names < b.names ? -1 : 1));
+  const rowsTop = donations.sort((a, b) => (a.amount < b.amount ? -1 : 1));
   var number = 0;
+  var printNumber = 0;
+  var today = new Date(),
+    date =
+      today.getFullYear() +
+      "-" +
+      (today.getMonth() + 1) +
+      "-" +
+      today.getDate();
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -156,12 +177,117 @@ export default function ListCampaignDonationComponent(props: DonationProps) {
     setPage(0);
   };
   const history = useHistory();
-  const dispatch =useDispatch();
+  const dispatch = useDispatch();
+  var totalDonation: any = 0;
+  var totalCampaign: any = 0;
+  var totalRemain: any = 0;
 
   const handleViewById = (id: any) => {
-    dispatch(getDonate(id,history));
+    dispatch(getDonate(id, history));
   };
-  
+
+  const exportTopDonorPdfData = () => {
+    let doc = new jsPDF();
+    let now = new Date();
+
+    let companyName = `HUNGER MS`;
+    let fileName = now;
+    let imageData = defaultImage;
+
+    doc.setFont(normal, "bold");
+    doc.setFontSize(12);
+    doc.addImage(imageData, "JPEG", 80, 5, 50, 20);
+    doc.setDrawColor(255, 0, 0);
+    doc.line(15, 25, 195, 25);
+    doc.text(`Print Date:${date}`, 15, 35);
+    doc.text(`Printed By:${localStorage.getItem("USERNAME")}`, 15, 43);
+
+    doc.setDrawColor(255, 0, 0);
+    doc.line(15, 25, 195, 25);
+
+    // doc.text(`Print date : ${now.toString()}`, 80, 35);
+
+    doc.text("TOP DONOR REPORT", 80, 45);
+    doc.line(75, 47, 50, 25);
+
+    // doc.autoTable({
+    //   styles: { fontSize: 9 },
+    //   theme: "grid",
+    //   margin: { top: 40 },
+    //   html: "#my-table",
+    // });
+    autoTable(doc, {
+      styles: { fontSize: 9 },
+      theme: "grid",
+      margin: { top: 60 },
+      html: "#my-table-top-donor",
+    });
+
+    // doc.setTextColor(255, 0, 0);
+    addFooters(doc);
+
+    doc.output("dataurlnewwindow");
+  };
+
+  const exportPdfData = () => {
+    let doc = new jsPDF();
+    let now = new Date();
+
+    let companyName = `HUNGER MS`;
+    let fileName = now;
+    let imageData = defaultImage;
+
+    doc.setFont(normal, "bold");
+    doc.setFontSize(12);
+    doc.addImage(imageData, "JPEG", 80, 5, 50, 20);
+    doc.setDrawColor(255, 0, 0);
+    doc.line(15, 25, 195, 25);
+    doc.text(`Print Date:${date}`, 15, 35);
+    doc.text(`Printed By:${localStorage.getItem("USERNAME")}`, 15, 43);
+
+    doc.setDrawColor(255, 0, 0);
+    doc.line(15, 25, 195, 25);
+
+    // doc.text(`Print date : ${now.toString()}`, 80, 35);
+
+    doc.text("CAMPAIGN DONATION REPORT", 80, 45);
+    doc.line(75, 47, 50, 25);
+
+    // doc.autoTable({
+    //   styles: { fontSize: 9 },
+    //   theme: "grid",
+    //   margin: { top: 40 },
+    //   html: "#my-table",
+    // });
+    autoTable(doc, {
+      styles: { fontSize: 9 },
+      theme: "grid",
+      margin: { top: 60 },
+      html: "#my-table",
+    });
+
+    // doc.setTextColor(255, 0, 0);
+    addFooters(doc);
+
+    doc.output("dataurlnewwindow");
+  };
+  const addFooters = (doc: any) => {
+    const pageCount = doc.internal.getNumberOfPages();
+
+    doc.setFont("helvetica", "italic");
+    doc.setFontSize(8);
+    for (var i = 1; i <= pageCount; i++) {
+      doc.setPage(i);
+      doc.text(
+        "Page " + String(i) + " of " + String(pageCount),
+        doc.internal.pageSize.width / 2,
+        287,
+        {
+          align: "center",
+        }
+      );
+    }
+  };
 
   return (
     <Grid item xs={12}>
@@ -169,7 +295,18 @@ export default function ListCampaignDonationComponent(props: DonationProps) {
         <Title>DONATION LIST</Title>
 
         <Root sx={{ width: 1200, maxWidth: "100%" }}>
-        
+          <Stack direction="row" spacing={2}>
+            <Button variant="outlined" size="small" onClick={exportPdfData}>
+              Print report
+            </Button>
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={exportTopDonorPdfData}
+            >
+              Print TOP donor
+            </Button>
+          </Stack>
           <Divider>
             <Chip />
           </Divider>
@@ -205,6 +342,8 @@ export default function ListCampaignDonationComponent(props: DonationProps) {
                     </td>
                     <td style={{ width: 120 }} align="right">
                       {row.quantity}
+                      <p hidden>{(totalDonation += row.quantity)}</p>
+                      <p hidden>{(totalCampaign = row.campaign?.quantity)}</p>
                     </td>
                     <td style={{ width: 120 }} align="right">
                       {row.amount}
@@ -258,6 +397,124 @@ export default function ListCampaignDonationComponent(props: DonationProps) {
                 </tr>
               </tfoot>
             </table>
+
+            <div>
+              <table hidden aria-label="custom pagination table" id="my-table">
+                <thead>
+                  <tr>
+                    <th>NO</th>
+                    <th>NAMES</th>
+                    <th>EMAIL</th>
+                    <th>PHONE</th>
+                    <th>QUANTITY</th>
+                    <th>AMOUNT</th>
+                    <th>STATUS</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {(rowsPerPage > 0
+                    ? rows.slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                    : rows
+                  ).map((row) => (
+                    <tr key={row.id}>
+                      <td style={{ width: 120 }}>{(printNumber += 1)}</td>
+                      <td style={{ width: 320 }}>{row.names}</td>
+                      <td style={{ width: 320 }}>{row.email}</td>
+
+                      <td style={{ width: 320 }} align="right">
+                        {row.phone}
+                      </td>
+                      <td style={{ width: 120 }} align="right">
+                        {row.quantity}
+                      </td>
+                      <td style={{ width: 120 }} align="right">
+                        {row.amount}
+                      </td>
+                      <td style={{ width: 720 }} align="right">
+                        {row.received ? `True` : `False`}
+                      </td>
+                    </tr>
+                  ))}
+
+                  {emptyRows > 0 && (
+                    <tr style={{ height: 41 * emptyRows }}>
+                      <td colSpan={3} />
+                    </tr>
+                  )}
+                </tbody>
+                <tfoot>
+                  {/* {(rowsPerPage > 0
+                  ? rows.slice(
+                      page * rowsPerPage,
+                      page * rowsPerPage + rowsPerPage
+                    )
+                  : rows
+                ).map((row) => ( */}
+                  <tr>
+                    <td>Donation Update</td>
+                    <td>Camaping </td>
+                    <td>{totalCampaign}</td>
+                    <td>Received</td>
+                    <td>{totalDonation}</td>
+                    <td>Remain</td>
+                    <td>{(totalRemain = totalCampaign - totalDonation)}</td>
+                  </tr>
+
+                  {/* ))} */}
+                </tfoot>
+              </table>
+            </div>
+
+            <div>
+              <table
+                hidden
+                aria-label="custom pagination table"
+                id="my-table-top-donor"
+              >
+                <thead>
+                  <tr>
+                    <th>NO</th>
+                    <th>NAMES</th>
+                    <th>EMAIL</th>
+                    <th>PHONE</th>
+                    <th>QUANTITY</th>
+                    <th>AMOUNT</th>
+                    <th>STATUS</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {(rowsPerPage > 0
+                    ? rows.slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                    : rowsTop
+                  ).map((row) => (
+                    <tr key={row.id}>
+                      <td style={{ width: 120 }}>{(printNumber += 1)}</td>
+                      <td style={{ width: 320 }}>{row.names}</td>
+                      <td style={{ width: 320 }}>{row.email}</td>
+
+                      <td style={{ width: 320 }} align="right">
+                        {row.phone}
+                      </td>
+                      <td style={{ width: 120 }} align="right">
+                        {row.quantity}
+                      </td>
+                      <td style={{ width: 120 }} align="right">
+                        {row.amount}
+                      </td>
+                      <td style={{ width: 720 }} align="right">
+                        {row.received ? `True` : `False`}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </>
         </Root>
       </Paper>
