@@ -11,7 +11,7 @@ import LayersIcon from "@mui/icons-material/Layers";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import { Link } from "@mui/material";
 import { LocalActivity } from "@mui/icons-material";
-import CampaignIcon from '@mui/icons-material/Campaign';
+import CampaignIcon from "@mui/icons-material/Campaign";
 
 export const mainListItems = (
   <React.Fragment>
@@ -19,7 +19,9 @@ export const mainListItems = (
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
-      <ListItemText primary="Dashboard" />
+      <Link href="/district/dashboard" color="inherit" underline="none">
+        <ListItemText primary="Dashboard" />
+      </Link>
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>
@@ -29,9 +31,6 @@ export const mainListItems = (
         <ListItemText primary="Campaign" />
       </Link>
     </ListItemButton>
-    
- 
-   
   </React.Fragment>
 );
 

@@ -69,7 +69,7 @@ export default function DashboardHeader() {
             noWrap
             sx={{ flexGrow: 1 }}
           >
-            HUNGER MS
+            HUNGER ALLEVIATION
           </Typography>
         
           <Button variant="outlined" size="small" onClick={signOut}>

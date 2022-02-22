@@ -65,11 +65,11 @@ export default function DashboardHeader() {
           <Typography
             component="h1"
             variant="h6"
-            color="inherit"
+            color="primary"
             noWrap
             sx={{ flexGrow: 1 }}
           >
-            HUNGER MS
+            HUNGER ALLEVIATION
           </Typography>
         
           <Button variant="outlined" size="small" onClick={signOut}>

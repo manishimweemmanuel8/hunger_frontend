@@ -26,7 +26,7 @@ export const createSubscription =
       
 
       // if (data) {
-      history.push("/");
+        window.location.href = "http://localhost:3000/"
       // }
     } catch (error: any) {
       if (error) {

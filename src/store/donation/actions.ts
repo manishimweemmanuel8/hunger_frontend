@@ -21,7 +21,8 @@ export const createDonate =
 
       // if (data) {
       // history.push("https://web.whatsapp.com");
-      window.location.href = "https://flutterwave.com/pay/hunger_ms";
+      window.open(
+        "https://ravesandbox.flutterwave.com/donate/e1kcszdp7mqg");
       // }
     } catch (error: any) {
       if (error) {

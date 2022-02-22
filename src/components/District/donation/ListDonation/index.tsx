@@ -196,7 +196,7 @@ export default function ListCampaignDonationComponent(props: DonationProps) {
 
     doc.setFont(normal, "bold");
     doc.setFontSize(12);
-    doc.addImage(imageData, "JPEG", 80, 5, 50, 20);
+    doc.addImage(imageData, "JPEG", 80, 5, 50, 23);
     doc.setDrawColor(255, 0, 0);
     doc.line(15, 25, 195, 25);
     doc.text(`Print Date:${date}`, 15, 35);

@@ -11,10 +11,10 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import { Link } from "@mui/material";
 import { LocalActivity } from "@mui/icons-material";
 import InfoIcon from "@mui/icons-material/Info";
-import DesignServicesIcon from '@mui/icons-material/DesignServices';
-import ContactMailIcon from '@mui/icons-material/ContactMail';
-import NavigationIcon from '@mui/icons-material/Navigation';
-import PeopleIcon from '@mui/icons-material/People';
+import DesignServicesIcon from "@mui/icons-material/DesignServices";
+import ContactMailIcon from "@mui/icons-material/ContactMail";
+import NavigationIcon from "@mui/icons-material/Navigation";
+import PeopleIcon from "@mui/icons-material/People";
 
 export const mainListItems = (
   <React.Fragment>
@@ -22,7 +22,9 @@ export const mainListItems = (
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
-      <ListItemText primary="Dashboard" />
+      <Link href="/admin/dashboard" color="inherit" underline="none">
+        <ListItemText primary="Dashboard" />
+      </Link>{" "}
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>

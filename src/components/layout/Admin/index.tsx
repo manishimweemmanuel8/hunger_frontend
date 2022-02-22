@@ -83,8 +83,8 @@ export default function AdminDashboardLayout(props: LayoutProps) {
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
-        <DashboardHeader/>
-        
+        <DashboardHeader />
+
         <Drawer variant="permanent" open={open}>
           <Toolbar
             sx={{
@@ -99,7 +99,7 @@ export default function AdminDashboardLayout(props: LayoutProps) {
             </IconButton>
           </Toolbar>
           <Divider />
-          <DashboardSidbar/>
+          <DashboardSidbar />
         </Drawer>
         <Box
           component="main"
@@ -116,10 +116,8 @@ export default function AdminDashboardLayout(props: LayoutProps) {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <main>{children}</main>
-
           </Container>
           <Footer />
-
         </Box>
       </Box>
     </ThemeProvider>

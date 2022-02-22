@@ -195,7 +195,7 @@ export default function ListDistrictComponent(props: AboutProps) {
                       {row.description}
                     </td>
                     <td style={{ width: 320 }} align="right">
-                      {row.status}
+                      {row.status ? `True` : `False`}
                     </td>
                     <td style={{ width: 120 }}>
                       <Button

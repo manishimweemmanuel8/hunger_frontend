@@ -28,7 +28,7 @@ export default function Layout(props: LayoutProps) {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Container maxWidth="lg">
-        <Header title="HUNGER MS" sections={sections} />
+        <Header title="HUNGER ALLEVIATION" sections={sections} />
         <main>{children}</main>
       </Container>
       <Footer />

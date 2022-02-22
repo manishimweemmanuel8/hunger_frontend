@@ -27,7 +27,7 @@ export default function EditCampaignDonationComponent(props: Props) {
   return (
     <Grid item xs={12}>
       <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-        <Title>EDIT EXIST DONATION</Title>
+        <Title>CONFIRM DONATION</Title>
 
         <Box
           component="form"

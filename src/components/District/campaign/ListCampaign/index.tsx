@@ -282,7 +282,7 @@ export default function ListCampaignComponent(props: CampaignProps) {
                       25,
                       { label: "All", value: -1 },
                     ]}
-                    colSpan={7}
+                    colSpan={8}
                     count={rows.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
