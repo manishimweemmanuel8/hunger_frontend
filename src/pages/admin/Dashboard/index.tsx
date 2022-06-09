@@ -22,6 +22,11 @@ import Chart from "./chart";
 import Deposits from "./deposits";
 import Orders from "./orders";
 import AdminDashboardLayout from "../../../components/layout/Admin";
+import { useDispatch, useSelector } from "react-redux";
+import { ICampaign } from "../../../store/campaign/types";
+import { AppState } from "../../../store/configureStore";
+import { getCampaigns } from "../../../store/campaign/actions";
+import Campaigns from "../../distrcit/Dashboard/campaigns";
 
 function Copyright(props: any) {
   return (
@@ -98,12 +103,22 @@ function AdminDashboardContent() {
   const toggleDrawer = () => {
     setOpen(!open);
   };
+  const dispatch = useDispatch();
+
+  const { campaigns }: { campaigns: ICampaign[] } = useSelector(
+    (state: AppState) => state.campaign
+  );
+  React.useEffect(() => {
+    dispatch(getCampaigns());
+  }, []);
+
+
 
   return (
     <AdminDashboardLayout>
       <Grid container spacing={3}>
         {/* Chart */}
-        <Grid item xs={12} md={8} lg={9}>
+        {/* <Grid item xs={12} md={8} lg={9}>
           <Paper
             sx={{
               p: 2,
@@ -114,9 +129,9 @@ function AdminDashboardContent() {
           >
             <Chart />
           </Paper>
-        </Grid>
+        </Grid> */}
         {/* Recent Deposits */}
-        <Grid item xs={12} md={4} lg={3}>
+        {/* <Grid item xs={12} md={4} lg={3}>
           <Paper
             sx={{
               p: 2,
@@ -127,11 +142,11 @@ function AdminDashboardContent() {
           >
             <Deposits />
           </Paper>
-        </Grid>
+        </Grid> */}
         {/* Recent Orders */}
         <Grid item xs={12}>
           <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-            <Orders />
+          <Campaigns campaigns={campaigns} />
           </Paper>
         </Grid>
       </Grid>

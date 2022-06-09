@@ -2,7 +2,7 @@ import * as React from "react";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { Link } from "@mui/material";
+import { Link, Stack } from "@mui/material";
 
 interface HeaderProps {
   sections: ReadonlyArray<{
@@ -32,10 +32,15 @@ export default function Header(props: HeaderProps) {
             {title}
           </Link>
         </Typography>
+        <Stack direction="row" spacing={2}>
 
+        <Button variant="outlined" size="small" href="/beneficiaries/feedback">
+         BENEFICIARIES FEEDBACK
+        </Button>
         <Button variant="outlined" size="small" href="/login">
           LOGIN HERE
         </Button>
+        </Stack>
       </Toolbar>
       <Toolbar
         component="nav"

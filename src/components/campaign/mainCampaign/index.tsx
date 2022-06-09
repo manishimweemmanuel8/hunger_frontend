@@ -13,6 +13,8 @@ import { createSubscription } from "../../../store/subscription/actions";
 import ModalBox from "../../ui/Modal/MessageAlert";
 import DonationComponent from "../Donation";
 import SubscriptionComponent from "../Subscription";
+import { useHistory } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 
 const style = {
   position: "absolute" as "absolute",
@@ -27,12 +29,21 @@ const style = {
 };
 interface CampaignProps {
   campaign: ICampaign;
-  history?: any;
 }
+// interface RouteParams {
+//   id: string;
+// }
 
 export default function MainCampaign(props: CampaignProps) {
   const { campaign } = props;
   const campId = campaign.id;
+  const history = useHistory();
+
+  // const params = useParams<RouteParams>();
+  const handleOpenFeedback = () => {
+    history.push(`/campaign/beneficiaries/feedback/${campId}`);
+  };
+
 
   const image = `http://localhost:3001/api/v1/campaign/image/${campaign.image}`;
   const donationReducer = useSelector((state: AppState) => state.donation);
@@ -88,7 +99,7 @@ export default function MainCampaign(props: CampaignProps) {
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     setState({ ...state, spinner: true });
-    dispatch(createDonate(data, props.history));
+    dispatch(createDonate(data, history));
   };
   const handleClose = (event: React.MouseEvent<HTMLElement>) => {
     setModalState({ ...modalState, open: false });
@@ -139,7 +150,7 @@ export default function MainCampaign(props: CampaignProps) {
   const onSubmitS = (event: React.FormEvent) => {
     event.preventDefault();
     setStateS({ ...stateS, spinnerS: true });
-    dispatch(createSubscription(dataS, props.history));
+    dispatch(createSubscription(dataS, history));
   };
   const handleCloseS = (event: React.MouseEvent<HTMLElement>) => {
     setModalStateS({ ...modalStateS, open: false });
@@ -190,7 +201,7 @@ export default function MainCampaign(props: CampaignProps) {
             <Typography
               component="h1"
               variant="h5"
-              color="green"
+              color="inherit"
               gutterBottom
             >
               quality: {campaign.quality} 
@@ -198,7 +209,7 @@ export default function MainCampaign(props: CampaignProps) {
               <Typography
               component="h1"
               variant="h5"
-              color="green"
+              color="inherit"
               gutterBottom
             >
                quantity: {campaign.quantity}
@@ -288,6 +299,15 @@ export default function MainCampaign(props: CampaignProps) {
                   </Box>
                 </Fade>
               </Modal>
+
+              <Button
+                type="button"
+                color="inherit"
+                variant="outlined"
+                onClick={handleOpenFeedback}
+              >
+                 BENEFICIARIES FEEDBACK
+              </Button>
             </Stack>
           </Box>
         </Grid>

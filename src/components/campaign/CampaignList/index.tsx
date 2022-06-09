@@ -16,6 +16,8 @@ import { createDonate } from "../../../store/donation/actions";
 import ModalBox from "../../ui/Modal/MessageAlert";
 import { createSubscription } from "../../../store/subscription/actions";
 import SubscriptionComponent from "../Subscription";
+import { useHistory } from "react-router-dom";
+
 
 const style = {
   position: "absolute" as "absolute",
@@ -37,6 +39,12 @@ interface CampaignProps {
 export default function CampaignList(props: CampaignProps) {
   const { campaign } = props;
   const campId = campaign.id;
+  const history = useHistory();
+
+  // const params = useParams<RouteParams>();
+  const handleOpenFeedback = () => {
+    history.push(`/campaign/beneficiaries/feedback/${campId}`);
+  };
 
   const image = `http://localhost:3001/api/v1/campaign/image/${campaign.image}`;
   const [openDonation, setOpenDonation] = React.useState(false);
@@ -45,7 +53,7 @@ export default function CampaignList(props: CampaignProps) {
   const dispatch = useDispatch();
 
   const donationReducer = useSelector((state: AppState) => state.donation);
-
+ 
   const {
     errors,
     message,
@@ -257,6 +265,15 @@ export default function CampaignList(props: CampaignProps) {
                   </Box>
                 </Fade>
               </Modal>
+
+              <Button
+                type="button"
+                color="inherit"
+                variant="outlined"
+                onClick={handleOpenFeedback}
+              >
+                  FEEDBACK
+              </Button>
             </Stack>
           </CardContent>
           <CardMedia

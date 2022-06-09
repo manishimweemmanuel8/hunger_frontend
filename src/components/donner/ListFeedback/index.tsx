@@ -8,25 +8,20 @@ import {
   Chip,
   Divider,
   Grid,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
   Paper,
   Stack,
   Typography,
 } from "@mui/material";
 
 import { useHistory } from "react-router-dom";
-import { IDistrict } from "../../../../store/district/types";
-import Title from "../../../../pages/admin/Dashboard/title";
-import { ICampaign } from "../../../../store/campaign/types";
-import defaultImage from "../../../../assets/images/logo192.png";
-import { IDonation } from "../../../../store/donation/types";
+import defaultImage from "../../../assets/images/logo192.png";
 import { useDispatch } from "react-redux";
-import { getDonate } from "../../../../store/donation/actions";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { useParams } from "react-router-dom";
+import { IFeedback } from "../../../store/feedback/types";
+import Title from "../../../pages/admin/Dashboard/title";
+
 
 function createData(name: string, calories: number, fat: number) {
   return { name, calories, fat };
@@ -135,20 +130,25 @@ const CustomTablePagination = styled(TablePaginationUnstyled)(
   `
 );
 
-interface DonationProps {
-  donations: IDonation[];
+interface FeedbackProps {
+  feedbacks: IFeedback[];
   normal?: any;
+}
+
+interface RouteParams {
+  id: string;
 }
 
 interface pdf {}
 
-export default function ListCampaignDonationComponent(props: DonationProps) {
-  const { donations, normal } = props;
-  console.log(donations);
+export default function ListFeedbackComponent(props: FeedbackProps) {
+  const params = useParams<RouteParams>();
+
+  const { feedbacks, normal } = props;
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const rows = donations.sort((a, b) => (a.names < b.names ? -1 : 1));
-  const rowsTop = donations.sort((a, b) => (a.amount > b.amount ? -1 : 1));
+  const rows = feedbacks.sort((a, b) => (a.names < b.names ? -1 : 1));
+  const rowsTop = feedbacks.sort((a, b) => (a.names > b.names ? -1 : 1));
   var number = 0;
   var printNumber = 0;
   var today = new Date(),
@@ -178,19 +178,17 @@ export default function ListCampaignDonationComponent(props: DonationProps) {
   };
   const history = useHistory();
   const dispatch = useDispatch();
-  var totalDonation: any = 0;
+  var totalFeedback: any = 0;
   var totalCampaign: any = 0;
   var totalRemain: any = 0;
 
-  const handleViewById = (id: any) => {
-    dispatch(getDonate(id, history));
-  };
+  
 
-  const exportTopDonorPdfData = () => {
+  const exportTopFeedbackPdfData = () => {
     let doc = new jsPDF();
     let now = new Date();
 
-    let companyName = `HUNGER MS`;
+    let companyName = `HUNGER ALLEVIATION`;
     let fileName = now;
     let imageData = defaultImage;
 
@@ -207,7 +205,7 @@ export default function ListCampaignDonationComponent(props: DonationProps) {
 
     // doc.text(`Print date : ${now.toString()}`, 80, 35);
 
-    doc.text("TOP DONOR REPORT", 80, 45);
+    doc.text("TOP FEEDBACK REPORT", 80, 45);
     doc.line(75, 47, 50, 25);
 
     // doc.autoTable({
@@ -220,7 +218,7 @@ export default function ListCampaignDonationComponent(props: DonationProps) {
       styles: { fontSize: 9 },
       theme: "grid",
       margin: { top: 60 },
-      html: "#my-table-top-donor",
+      html: "#my-table-top-feedback",
     });
 
     // doc.setTextColor(255, 0, 0);
@@ -250,7 +248,7 @@ export default function ListCampaignDonationComponent(props: DonationProps) {
 
     // doc.text(`Print date : ${now.toString()}`, 80, 35);
 
-    doc.text("CAMPAIGN DONATION REPORT", 80, 45);
+    doc.text(" FEEDBACK REPORT", 80, 45);
     doc.line(75, 47, 50, 25);
 
     // doc.autoTable({
@@ -292,20 +290,14 @@ export default function ListCampaignDonationComponent(props: DonationProps) {
   return (
     <Grid item xs={12}>
       <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-        <Title>DONATION LIST</Title>
+        <Title>FEEDBACK LIST</Title>
 
         <Root sx={{ width: 1200, maxWidth: "100%" }}>
           <Stack direction="row" spacing={2}>
             <Button variant="outlined" size="small" onClick={exportPdfData}>
               Print report
             </Button>
-            {/* <Button
-              variant="outlined"
-              size="small"
-              onClick={exportTopDonorPdfData}
-            >
-              Print TOP donor
-            </Button> */}
+            
           </Stack>
           <Divider>
             <Chip />
@@ -316,12 +308,10 @@ export default function ListCampaignDonationComponent(props: DonationProps) {
                 <tr>
                   <th>NO</th>
                   <th>NAMES</th>
-                  <th>EMAIL</th>
                   <th>PHONE</th>
-                  <th>QUANTITY</th>
-                  <th>AMOUNT</th>
-                  <th>STATUS</th>
-                  <th>ACTION</th>
+                  <th>LOCATION</th>
+                  <th>FEEDBACK</th>
+                  <th>CAMPAING</th>
                 </tr>
               </thead>
               <tbody>
@@ -335,32 +325,23 @@ export default function ListCampaignDonationComponent(props: DonationProps) {
                   <tr key={row.id}>
                     <td style={{ width: 120 }}>{(number += 1)}</td>
                     <td style={{ width: 320 }}>{row.names}</td>
-                    <td style={{ width: 320 }}>{row.email}</td>
+                    <td style={{ width: 320 }}>{row.phone}</td>
 
-                    <td style={{ width: 320 }} align="right">
-                      {row.phone}
-                    </td>
+                    
+                   
                     <td style={{ width: 120 }} align="right">
-                      {row.quantity}
-                      <p hidden>{(totalDonation += row.quantity)}</p>
-                      <p hidden>{(totalCampaign = row.campaign?.quantity)}</p>
-                    </td>
-                    <td style={{ width: 120 }} align="right">
-                      {row.amount}
-                    </td>
-                    <td style={{ width: 720 }} align="right">
-                      {row.received ? `True` : `False`}
+                      {row.location}
                     </td>
 
-                    <td style={{ width: 520 }}>
-                      <Button
-                        variant="outlined"
-                        onClick={() => handleViewById(row.id)}
-                      >
-                        Details
-                      </Button>
+                    <td style={{ width: 120 }} align="right">
+                      {row.feedback}
                     </td>
-                  </tr>
+                    <td style={{ width: 120 }} align="right">
+                      {row.campaign?.name}
+                    </td>
+                    
+
+                </tr>
                 ))}
 
                 {emptyRows > 0 && (
@@ -402,13 +383,12 @@ export default function ListCampaignDonationComponent(props: DonationProps) {
               <table hidden aria-label="custom pagination table" id="my-table">
                 <thead>
                   <tr>
-                    <th>NO</th>
-                    <th>NAMES</th>
-                    <th>EMAIL</th>
-                    <th>PHONE</th>
-                    <th>QUANTITY</th>
-                    <th>AMOUNT</th>
-                    <th>STATUS</th>
+                  <th>NO</th>
+                  <th>NAMES</th>
+                  <th>PHONE</th>
+                  <th>LOCATION</th>
+                  <th>FEEDBACK</th>
+                  <th>CAMPAIGN</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -422,20 +402,18 @@ export default function ListCampaignDonationComponent(props: DonationProps) {
                     <tr key={row.id}>
                       <td style={{ width: 120 }}>{(printNumber += 1)}</td>
                       <td style={{ width: 320 }}>{row.names}</td>
-                      <td style={{ width: 320 }}>{row.email}</td>
+                      <td style={{ width: 320 }}>{row.phone}</td>
 
                       <td style={{ width: 320 }} align="right">
-                        {row.phone}
+                        {row.location}
                       </td>
                       <td style={{ width: 120 }} align="right">
-                        {row.quantity}
+                        {row.feedback}
                       </td>
                       <td style={{ width: 120 }} align="right">
-                        {row.amount}
+                        {row.campaign?.name}
                       </td>
-                      <td style={{ width: 720 }} align="right">
-                        {row.received ? `True` : `False`}
-                      </td>
+                      
                     </tr>
                   ))}
 
@@ -445,26 +423,7 @@ export default function ListCampaignDonationComponent(props: DonationProps) {
                     </tr>
                   )}
                 </tbody>
-                <tfoot>
-                  {/* {(rowsPerPage > 0
-                  ? rows.slice(
-                      page * rowsPerPage,
-                      page * rowsPerPage + rowsPerPage
-                    )
-                  : rows
-                ).map((row) => ( */}
-                  <tr>
-                    <td>Donation Update</td>
-                    <td>Camaping </td>
-                    <td>{totalCampaign}</td>
-                    <td>Received</td>
-                    <td>{totalDonation}</td>
-                    <td>Remain</td>
-                    <td>{(totalRemain = totalCampaign - totalDonation)}</td>
-                  </tr>
-
-                  {/* ))} */}
-                </tfoot>
+               
               </table>
             </div>
 
@@ -476,13 +435,12 @@ export default function ListCampaignDonationComponent(props: DonationProps) {
               >
                 <thead>
                   <tr>
-                    <th>NO</th>
-                    <th>NAMES</th>
-                    <th>EMAIL</th>
-                    <th>PHONE</th>
-                    <th>QUANTITY</th>
-                    <th>AMOUNT</th>
-                    <th>STATUS</th>
+                  <th>NO</th>
+                  <th>NAMES</th>
+                  <th>PHONE</th>
+                  <th>LOCATION</th>
+                  <th>FEEDBACK</th>
+                  <th>CAMPAIGN</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -496,20 +454,20 @@ export default function ListCampaignDonationComponent(props: DonationProps) {
                     <tr key={row.id}>
                       <td style={{ width: 120 }}>{(printNumber += 1)}</td>
                       <td style={{ width: 320 }}>{row.names}</td>
-                      <td style={{ width: 320 }}>{row.email}</td>
 
                       <td style={{ width: 320 }} align="right">
                         {row.phone}
                       </td>
                       <td style={{ width: 120 }} align="right">
-                        {row.quantity}
+                        {row.location}
                       </td>
                       <td style={{ width: 120 }} align="right">
-                        {row.amount}
+                        {row.feedback}
                       </td>
-                      <td style={{ width: 720 }} align="right">
-                        {row.received ? `True` : `False`}
+                      <td style={{ width: 120 }} align="right">
+                        {row.campaign?.name}
                       </td>
+                     
                     </tr>
                   ))}
                 </tbody>

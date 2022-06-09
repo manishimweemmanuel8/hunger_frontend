@@ -9,6 +9,9 @@ import UploadImageCampaign from "../../pages/distrcit/campaign/UploadImage";
 import DistricttDashboard from "../../pages/distrcit/Dashboard";
 import EditDonation from "../../pages/distrcit/donation/EditDonation";
 import ListCampaignDonation from "../../pages/distrcit/donation/ListDonation";
+import AddFeedback from "../../pages/distrcit/feedback/AddFeedback";
+import EditFeedback from "../../pages/distrcit/feedback/EditFeedback";
+import ListCampaignFeedback from "../../pages/distrcit/feedback/ListFeedback";
 
 export default function DistrcitRoutes() {
   return (
@@ -20,6 +23,10 @@ export default function DistrcitRoutes() {
       <Route path="/district/campaign/image/:id" exact component={UploadImageCampaign} />
       <Route path="/district/campaign/donation/:id" exact component={ListCampaignDonation} />
       <Route path="/district/campaign/donation/details/:id" exact component={EditDonation} />
+      <Route path="/district/campaign/feedback/:id" exact component={ListCampaignFeedback} />
+      <Route path="/district/campaign/feedback/details/:id" exact component={EditFeedback} />
+      <Route path="/district/campaign/add/feedback/:id" exact component={AddFeedback} />
+
 
     </Switch>
   );

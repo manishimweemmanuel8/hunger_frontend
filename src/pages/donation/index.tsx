@@ -16,6 +16,11 @@ import { getServices } from "../../store/masterData/services/actions";
 import { ICampaign } from "../../store/campaign/types";
 import { getCampaignLatest, getCampaigns } from "../../store/campaign/actions";
 
+type Props = {
+  history: any;
+  location: any;
+};
+
 export default function Home() {
   const { abouts }: { abouts: IAbout[] } = useSelector(
     (state: AppState) => state.about

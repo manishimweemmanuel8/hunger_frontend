@@ -19,27 +19,15 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import { mainListItems, secondaryListItems } from "./listItems";
 import Chart from "./chart";
 import Deposits from "./deposits";
-import Orders from "./orders";
+import Orders from "./campaigns";
 import AdminDashboardLayout from "../../../components/layout/Admin";
 import DistrictDashboardLayout from "../../../components/layout/District";
+import { useDispatch, useSelector } from "react-redux";
+import { ICampaign } from "../../../store/campaign/types";
+import { AppState } from "../../../store/configureStore";
+import { getCampaignsDistrcit } from "../../../store/campaign/actions";
+import Campaigns from "./campaigns";
 
-function Copyright(props: any) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
 
 const drawerWidth: number = 240;
 
@@ -99,11 +87,21 @@ function DistrcitDashboardContent() {
     setOpen(!open);
   };
 
+  const dispatch = useDispatch();
+
+  const { campaignsDistrict }: { campaignsDistrict: ICampaign[] } = useSelector(
+    (state: AppState) => state.campaign
+  );
+  React.useEffect(() => {
+    dispatch(getCampaignsDistrcit());
+  }, []);
+
+
   return (
     <DistrictDashboardLayout>
       <Grid container spacing={3}>
         {/* Chart */}
-        <Grid item xs={12} md={8} lg={9}>
+        {/* <Grid item xs={12} md={8} lg={9}>
           <Paper
             sx={{
               p: 2,
@@ -114,9 +112,9 @@ function DistrcitDashboardContent() {
           >
             <Chart />
           </Paper>
-        </Grid>
+        </Grid> */}
         {/* Recent Deposits */}
-        <Grid item xs={12} md={4} lg={3}>
+        {/* <Grid item xs={12} md={4} lg={3}>
           <Paper
             sx={{
               p: 2,
@@ -127,11 +125,11 @@ function DistrcitDashboardContent() {
           >
             <Deposits />
           </Paper>
-        </Grid>
+        </Grid> */}
         {/* Recent Orders */}
         <Grid item xs={12}>
           <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-            <Orders />
+            <Campaigns campaigns={campaignsDistrict} />
           </Paper>
         </Grid>
       </Grid>

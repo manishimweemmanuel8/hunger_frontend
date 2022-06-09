@@ -168,6 +168,9 @@ export default function ListCampaignComponent(props: CampaignProps) {
   const handleDonationById = (id: any) => {
     history.push(`/district/campaign/donation/${id}`);
   };
+  const handleFeedbackById = (id: any) => {
+    history.push(`/district/campaign/feedback/${id}`);
+  };
 
   return (
     <Grid item xs={12}>
@@ -261,6 +264,13 @@ export default function ListCampaignComponent(props: CampaignProps) {
                           onClick={() => handleDonationById(row.id)}
                         >
                           Donation
+                        </Button>
+
+                        <Button
+                          variant="outlined"
+                          onClick={() => handleFeedbackById(row.id)}
+                        >
+                          Feedback
                         </Button>
                       </Stack>
                     </td>
